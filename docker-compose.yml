@@ -1,0 +1,22 @@
+version: '3.1'
+services:
+
+  todo-api-spring-boot:
+    build: .
+    container_name: todo-api-spring-boot
+    ports:
+      - "18080:8080"
+      - "18787:8787"
+    restart: always
+    depends_on:
+      - todo-db
+
+  todo-db:
+    image: postgres:10.7
+    container_name: todo-db
+    environment:
+      - POSTGRES_USER=siva
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=appdb
+    ports:
+      - "5432:5432"
