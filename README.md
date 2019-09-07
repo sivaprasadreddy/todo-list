@@ -1,2 +1,1 @@
-# spring-boot-gradle-demo
-SpringBoot Gradle sample application
+# Todo REST API using SpringBoot

@@ -1,4 +1,4 @@
-package com.sivalabs.bootdemo.config;
+package com.sivalabs.todo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +27,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "My REST API",
-                "Description of API.",
+                "Todo REST API",
+                "Todo REST API using SpringBoot",
                 "API TOS",
                 "Terms of service",
                 new Contact("Team", "www.example.com", "support@example.com"),

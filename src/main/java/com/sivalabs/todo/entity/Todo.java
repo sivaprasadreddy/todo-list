@@ -1,4 +1,4 @@
-package com.sivalabs.bootdemo.entity;
+package com.sivalabs.todo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

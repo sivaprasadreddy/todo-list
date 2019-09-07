@@ -1,7 +1,7 @@
-package com.sivalabs.bootdemo.web.controller;
+package com.sivalabs.todo.web.controller;
 
-import com.sivalabs.bootdemo.entity.Todo;
-import com.sivalabs.bootdemo.repository.TodoRepository;
+import com.sivalabs.todo.entity.Todo;
+import com.sivalabs.todo.repository.TodoRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

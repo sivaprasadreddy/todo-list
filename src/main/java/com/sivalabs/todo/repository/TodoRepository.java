@@ -1,6 +1,6 @@
-package com.sivalabs.bootdemo.repository;
+package com.sivalabs.todo.repository;
 
-import com.sivalabs.bootdemo.entity.Todo;
+import com.sivalabs.todo.entity.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TodoRepository extends JpaRepository<Todo,Long> {

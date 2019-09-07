@@ -1,4 +1,4 @@
-package com.sivalabs.bootdemo;
+package com.sivalabs.todo.common;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;

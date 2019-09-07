@@ -1,7 +1,7 @@
-package com.sivalabs.bootdemo.config;
+package com.sivalabs.todo.config;
 
-import com.sivalabs.bootdemo.entity.Todo;
-import com.sivalabs.bootdemo.repository.TodoRepository;
+import com.sivalabs.todo.entity.Todo;
+import com.sivalabs.todo.repository.TodoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
