@@ -4,6 +4,7 @@ package com.sivalabs.todo.web.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sivalabs.todo.entity.Todo;
 import com.sivalabs.todo.repository.TodoRepository;
+import com.sivalabs.todo.utils.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.zalando.problem.ProblemModule;
@@ -32,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = TodoController.class)
+@ActiveProfiles(Constants.PROFILE_TEST)
 class TodoControllerTest {
 
     @Autowired
@@ -95,8 +98,8 @@ class TodoControllerTest {
 
         Todo todo = new Todo(null, "New Todo", LocalDateTime.now(), false);
         this.mockMvc.perform(post("/api/todos")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(todo)))
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(todo)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.text", is(todo.getText())))
                 .andExpect(jsonPath("$.createdOn", notNullValue()))
@@ -131,12 +134,12 @@ class TodoControllerTest {
         given(todoRepository.save(any(Todo.class))).willAnswer((invocation) -> invocation.getArgument(0));
 
         this.mockMvc.perform(put("/api/todos/{id}", todo.getId())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(todo)))
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(todo)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.text", is("Updated First Todo")))
+                .andExpect(jsonPath("$.text", is(todo.getText())))
                 .andExpect(jsonPath("$.createdOn", notNullValue()))
-                .andExpect(jsonPath("$.done", is(true)));
+                .andExpect(jsonPath("$.done", is(todo.isDone())));
 
     }
 
@@ -147,8 +150,8 @@ class TodoControllerTest {
         Todo todo = new Todo(todoId, "Updated First Todo", LocalDateTime.now(), true);
 
         this.mockMvc.perform(put("/api/todos/{id}", todoId)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(todo)))
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(todo)))
                 .andExpect(status().isNotFound());
 
     }
@@ -160,8 +163,7 @@ class TodoControllerTest {
         given(todoRepository.findById(todoId)).willReturn(Optional.of(todo));
         doNothing().when(todoRepository).deleteById(todo.getId());
 
-        this.mockMvc.perform(
-                delete("/api/todos/{id}", todo.getId()))
+        this.mockMvc.perform(delete("/api/todos/{id}", todo.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.text", is(todo.getText())))
                 .andExpect(jsonPath("$.createdOn", notNullValue()))
@@ -175,7 +177,7 @@ class TodoControllerTest {
         given(todoRepository.findById(todoId)).willReturn(Optional.empty());
 
         this.mockMvc.perform(delete("/api/todos/{id}", todoId))
-                .andExpect(status().isNotFound());
+                    .andExpect(status().isNotFound());
 
     }
 
