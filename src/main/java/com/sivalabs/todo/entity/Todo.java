@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,9 +21,18 @@ public class Todo {
     private Long id;
 
     @Column(nullable = false)
+    @NotEmpty(message = "Todo text cannot be empty")
     private String text;
 
     private LocalDateTime createdOn = LocalDateTime.now();
 
     private boolean done;
+
+    @PrePersist
+    @PreUpdate
+    void prePersist() {
+        if(createdOn == null) {
+            createdOn = LocalDateTime.now();
+        }
+    }
 }
