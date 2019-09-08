@@ -40,7 +40,7 @@ public class TodoController {
     @PutMapping("/{id}")
     public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo todo) {
         return todoRepository.findById(id)
-                .map((todoObj) -> {
+                .map(todoObj -> {
                     todo.setId(id);
                     return ResponseEntity.ok(todoRepository.save(todo));
                 })
@@ -51,7 +51,7 @@ public class TodoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Todo> deleteTodo(@PathVariable Long id) {
         return todoRepository.findById(id)
-                .map((todo) -> {
+                .map(todo -> {
                     todoRepository.deleteById(id);
                     return ResponseEntity.ok(todo);
                 })

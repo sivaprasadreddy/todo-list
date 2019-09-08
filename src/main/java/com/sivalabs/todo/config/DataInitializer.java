@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @Component
-@Profile("!prod")
+@Profile({"!prod","!heroku"})
 public class DataInitializer implements CommandLineRunner {
 
     @Autowired
