@@ -5,5 +5,39 @@ sudo: false
 services:
   - docker
 
+env:
+  global:
+    - secure: "FBc1DMtINAux3N6h7JCi3v/J51e8NQLm9WF4z3YPtzaAu7Uu4klvxHMCEp7s6SNunHE8dIO69nqI/DVjzn7ar8nKOrjmFp9MheSkeMbGW+HnTqXMrnB7s/qDUwMHT/+XmdgvkeCTYmqRJXKkZp2b5uaqJUqgvMHlJgtMsRIsVjc6ZjW36mVWjdgzz2ChGnQwSyqb6uYHw0w4BP5iZqwYLuH3tFvHHYGX/2vaABvsYKufJda9sBeK53M+RsO3A4MhuRsYljpS3bWjuJBv/nW3g7mSnQsbsfl6qs1VkF+tpLOyQ5WppIqVsoEnUvSk+4B034BpGqGAK9rOa1wZ6vBD2sx5p9uCoBUoMzXRtq1SLuy01n7Ovw40SkWdQvVkt0a8cP7Ydn8IAd0lnRYKRUo+S45zPm8l+BTYY0SoQfORe3wM/t9zhpFwIPSwamxmAh/0CkjcdNDAEdADLSy+XaCuuaomvA75bzrdkblvLu9t2GIYpzbLc8VlmUmQ7UxVXj+m/gsnEisv0NLA46VI4Bame8RxIFW026j8kC+nnea5F2WznGMq6Eujk7yNHgQfzZjLmNyy7sj061p70YasaNgOvZFLTL7G/uFvjRMCspPlexIeFCYILIBvJjUe6ceJ28UOAAEHgivpOw+Xbf/bn3NDjXuBWHu82uI+H96Rh0no154="
+    - secure: "eMG11wGnyfyqsOY8pjBAG5RYREJseAUgsbjO55CmBHfwhQdzE6aklRDsjtfqHB8jYtzKUiEg5pI9fGxEe6qptVNUJMJqub0nhmVjlppmZdwuuBeJR+yGEF9E15mprjA94rNG4vQp86LeYezCjrKxlZkh7rQ1stGM5lGmrsXaR4RuE+Jn9+u993fvWSqwFnjrB76/744UEMmQx/mVi3VviXD8yeKr3bksdgh3qjmkj+jiQbmYLiqE+J4bahyb5jjbaNt2T4h6ZHRqh7eafkFdP2bPp4MNsqFY+vQKD99b3+1qJbdUg7Cxg1W9G0cbDyxAUj2lRkJ5gvfAzToeXrYZ+jm925YyKQmU4wcnvoJzguMmT+y2sY+amusmNtFV2zpwrm1ROIO9vSyV5YfFWU9UotxE5BQ6ziUqn7UwMqBSZNZMlUoToVOds53VJAyevFpxVEcjVyLkLyjFL7T5KLRn2lN/OQXKLLRrZTQ0uO+f95RAxL9rnSyFSB6eB7gSyYTOGip8d38P2pz1K0rwyZN2ffdO3ZYNlz3qJMY8SMjMefSQQ+CfL+Zlfz5smh5O5mIw2vybYuPAF1U3w669D9KNCkO+RBCDhcT5e7CL49V7t4PnkSPvCEP2zsxXjRei/fHXGQ8uDg8YxiKwEgBmqaRbxAFNKlCoYSMd0RoiHIC8xG0="
+    - secure: "WdgxmL2GTgqh4k9zG+SzB4OQf7F1t4hz2FBSF8bxmypWJtwe0idckfgpHPULOA1LdGjK6Qune1L93nWEsoYoTS+dKYP8+cjkXpvNmJT5qs9z8Uh+MFm4gQ+HcwbpGEl5ce9e5NSLa3hG0X4NZCpH6kiIC8HY/WsasLMThC1nynF/VG55uMjC+7kEepw88fdgpRIHRBWmK+bpsnO4J8W+g7TpkGn/fonsnuj7jmL2btz9eOPWY48eO9DyoKTCXiKxmyCDVbOgeZ075+m9P/JA1UYldcskjozMUcr045BD/4XHulnXyP54H3zflK5OVihl16n8zY72zLPDyDjTy2fKjN4VxZCQRAcN2rZKOom6gGPigN1xyAYI+xdFuL4cqK3Kg2dRVy3MdcLRZ+ucPcVYjE3vd1gvjh1/F4x1+J8SjL/NZCi1HJ5IjPuGFOZQ+k39YYdmuw13q6yubVYvLLVun5TM5hzYilTPvPKXedzyuC5kIP7J0LiWJd2I9Ki+b4/yom18LCFcoserjlulu4+GSeKKh7MpGFVLsBxxErmQ6lwRFwnFI0ouUYiWB4kIJm3abhjgC9n2+K/5XN2/DUDY4iPy9oT8gcdM83qGrEMp+WflI3FR5HBRgrQInexA2vW2IkSMxzAZBK9l6CD0FcB8g5f9enDKmoFAGZwpuq8l9rk="
+    - secure: "Q9pK0wE5fMRkoltwx8QASuCVFvERrNF9lTLir7feAU9hFkOUHXE2X4Zb7stmMYUvmK4ywZMkHmPqk+aDZH/70AtKFfchYSJePtaHOG1nKksTT1fr4E2xAU3kdI/h0CKli0wpycgQGOJjiT0kAqe2/7MO+VnHQUa7IdU9zR5WIykSi8vEoas1nAi8TeuCiRrDlIJAlUOUxACvvw4DJI6y3mqkSAGf5L+7z19X/SV/MSlLX8ZLEdhZcm2jlsAmIm4ySFJeCrwjOCwpUXCcoxJ65B7CZ1Iiwmureg6+2WTrgqr3lsMNi8Z9P/izwzXDIPbauJMitesnv1MAgzeiZq8iNG5LthBxTuE9EokInk34+V1iSUfkLvhWdVoZnlpAl+C0/CWDCZA9gEgpTX+PM9dJRdAQsmGnLK3xVB6z+qgNLWsXZjrir+toYGmAOJaNj1h7IM07tWWJzRDZ+5rTlTnPWjxiDbV9aCnemB2yRraVTthPDUbjoMq+HA2XXYDeI1wDoxQxavrT4hbfzeCikBp+E76rDY7W4Nieai95cH96K1QTPaz+zfYonfrfChNFv8bJA98czbpJualMlx0I9hI3VKu8Jyle0mcYgRXPjOCNDbxIB41+1+yZFPieH7RlMfxdI6biATyhHFmyvw3Ll3A8FgmDzIvO1DnM0Tjozmmo7tQ="
+    - COMMIT=${TRAVIS_COMMIT::7}
+
+
+addons:
+  sonarcloud:
+    organization: "sivaprasadreddy-github"
+    token:
+      secure: $SONAR_TOKEN
+
 script:
-  - ./mvnw clean verify
+  - ./mvnw clean install -B
+  - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+  - export IMAGE_NAME=sivaprasadreddy/todo-api-spring-boot
+  - docker build -t $IMAGE_NAME:$COMMIT .
+  - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
+  - docker push $IMAGE_NAME
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: sivalabs-todo-api-spring-boot
