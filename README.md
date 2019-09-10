@@ -7,3 +7,15 @@
 * Swagger UI : https://sivalabs-todo-api-spring-boot.herokuapp.com/swagger-ui.html
 * SonarCloud : https://sonarcloud.io/dashboard?id=com.sivalabs%3Atodo-api-spring-boot
 * DockerHub : https://cloud.docker.com/u/sivaprasadreddy/repository/docker/sivaprasadreddy/todo-api-spring-boot
+
+## Run using Docker
+
+`> ./run.sh start_all`
+
+### ELK
+
+* Kibana: http://localhost:5601/
+
+### Monitoring
+* Prometheus: http://localhost:9090/targets
+* Grafana: http://localhost:3000/

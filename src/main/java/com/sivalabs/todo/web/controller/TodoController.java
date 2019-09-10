@@ -2,6 +2,7 @@ package com.sivalabs.todo.web.controller;
 
 import com.sivalabs.todo.entity.Todo;
 import com.sivalabs.todo.repository.TodoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/todos")
+@Slf4j
 public class TodoController {
 
     private final TodoRepository todoRepository;

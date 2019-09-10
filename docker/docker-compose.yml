@@ -2,7 +2,7 @@ version: '3.1'
 services:
 
   todo-api-spring-boot:
-    build: .
+    build: ..
     container_name: todo-api-spring-boot
     ports:
       - "18080:8080"
@@ -20,3 +20,4 @@ services:
       - POSTGRES_DB=appdb
     ports:
       - "5432:5432"
+
