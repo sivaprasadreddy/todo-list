@@ -21,8 +21,13 @@
 		<logstash-logback.version>4.9</logstash-logback.version>
 
 		<jacoco.destFile>${project.build.directory}/coverage-reports/aggregate.exec</jacoco.destFile>
-		<sonar.jacoco.reportPaths>${project.build.directory}/coverage-reports/aggregate.exec</sonar.jacoco.reportPaths>
-		<sonar.jacoco.itReportPath>${project.build.directory}/coverage-reports/aggregate.exec</sonar.jacoco.itReportPath>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.organization>sivaprasadreddy-github</sonar.organization>
+		<sonar.exclusions>
+			src/main/java/**/config/*.*,
+			src/main/java/**/entity/*.*,
+			src/main/java/**/*Application.*
+		</sonar.exclusions>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
@@ -297,5 +302,29 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonarsource.scanner.maven</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
+						<version>3.5.0.1254</version>
+						<executions>
+							<execution>
+								<!--<phase>verify</phase>-->
+								<goals>
+									<goal>sonar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+
+			</build>
+		</profile>
+	</profiles>
 
 </project>
