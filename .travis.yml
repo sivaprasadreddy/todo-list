@@ -22,7 +22,7 @@ addons:
 
 script:
   - ./mvnw clean install -B
-  - sonar-scanner
+  - ./mvnw sonar:sonar
 
 cache:
   directories:
