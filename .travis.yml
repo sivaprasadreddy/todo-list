@@ -12,6 +12,7 @@ env:
     - secure: "o6BwGBj2bWRcOC4kEcon9p9CgnyAntZCm2wjIc5y4/Kd616DCJisthbEWeFmXEx0T1VHJt7COEpgUM5m6W+GMr7QGwsz2Jta+1t5mQQRw1qkMpOv/FO7bGVtIZvl0ks0QYUHQV2T4UEN05XZ//orut+f1vIKPq9YxtqC4RpQbHdmkGdNRqIOL3cipyNCxAdUvJ3tT2fYPJLiVro4s1lsMmEDetxA3VhdJgFD8NsIbEJgJkuaSs+NhNXwYf5pAsn8X+uE6SVebNCM7i+N+v+JUOjfnkrjPV71Eg7e8bq6c2ILZx2mQjWJsTTn9so3mWoKv7nz/mPdr9QoHJ9FMaKipt5az6hHQT4uvEWmEAyIAGuVQo0O8QpzTOf/4TcDaib+kFKhXuOkLvJmz4qYh2u+LN/s4lSUQkPBR7S36a4hvZb7IP+ebftF+vnGuCdsZvepoEzN6FqgqfJEXmKrloALcma3h1b9ojI3Uy+C8GHMkzJ7IArmsp5oO/BeASrFTILcwlqWSDuNquI70untc8Q8GfiIb/xsBKc44ebtg0yk51rk8dKGOu5cbN4wumvN2TAGU39wJol4Bx1tBVWpYGic+iGON+rUWsGPnS0FQEpm+WoNT/DbaPez/WZUZVMqbRz6IS+PNp5SQIT+uhH2J4sOPybi2xFF3y/ql6b9MkZENS4="
     - secure: "obdVoW15hKxnT5yS9R1bagrdHxJuC2RFoIppmSirALPTx9KPNuBBpkf0mYxyU65lui6VYhBfF1Mik3wQlSj1wUMi4p3LsjKuNnBfw55k2G9txheogJSaFRohNWgZ09lVF7vYQ/XFp6utS8F7Mk00Aj7VbT8huUElPUEJQJYEYY0MJCj0MyMj+qi8zWpb9OPLpdeSxEZnpDnz8nfD905Amb0ykUANB8w4Vu3XmM91r2bXqGX02PCtwuOCTbmja/W9oNbZIHnY8qlBXb/bTuxj/hGs67Sx22HFMt+QfCHyXbqRQslMUZmeJT8aqSiVczPuHTOHtrvNxjShWb+stXErcNaqUdfVciS6e3QvQDGx7Zd/b9W0ZGmDTUxRfvuyHw8GIq6Q631UpnJZ3rOrzo8YWPTFHOYtEVHiqIPIV2DNj4pw/S/7SscE6Gu0lKhI0rWjMp8D/ojwm1FoSM1rllIwREaQUYlX4odvaVrNqYpiMpks4f6bfgI5eSA76Mp4q0+n9bz3AYm1yTP4agVUsMnyYLiaB/VAnExixV1AcJYEj/9pW5By6i4Cvu4+FE+IVw8E2aOPL8j8qPN9rXso240zi5AN9oUctIJIG2dFHRPt+6rQpYGAyflyWxjP8zlm1Qfj/eWKQoA0w12oZj9c6oR2Hr+EN+0K3zn+agnUQUYQKR0="
     - COMMIT=${TRAVIS_COMMIT::7}
+    - IMAGE_NAME=todo-api-spring-boot
 
 
 addons:
@@ -32,12 +33,14 @@ cache:
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
-  - export IMAGE_NAME=sivaprasadreddy/todo-api-spring-boot
-  - docker build -t $IMAGE_NAME:$COMMIT .
-  - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
-  - docker push $IMAGE_NAME
+  - export DOCKER_IMAGE=$DOCKER_USER/$IMAGE_NAME
+  - docker build -t $DOCKER_IMAGE:$COMMIT .
+  - docker tag $DOCKER_IMAGE:$COMMIT $DOCKER_IMAGE:$TAG
+  - docker push $DOCKER_IMAGE
 
 deploy:
   provider: heroku
   api_key: $HEROKU_API_KEY
   app: sivalabs-todo-api-spring-boot
+  on:
+    branch: master
