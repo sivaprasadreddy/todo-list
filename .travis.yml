@@ -43,4 +43,4 @@ deploy:
   api_key: $HEROKU_API_KEY
   app: sivalabs-todo-api-spring-boot
   on:
-    branch: master
+    branch: release
