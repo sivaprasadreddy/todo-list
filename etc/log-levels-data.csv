@@ -1,0 +1,3 @@
+package, configuredLevel, effectiveLevel
+org.springframework, INFO, INFO
+com.sivalabs, DEBUG, DEBUG

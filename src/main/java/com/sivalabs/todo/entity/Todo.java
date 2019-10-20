@@ -1,19 +1,21 @@
 package com.sivalabs.todo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "todo")
-@Data
+@Table(name = "todos")
+@Setter
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
-public class Todo {
+@AllArgsConstructor()
+public class Todo implements Serializable {
 
     @Id
     @SequenceGenerator(name = "todo_id_generator", sequenceName = "todo_id_seq", allocationSize = 1)
@@ -24,15 +26,28 @@ public class Todo {
     @NotEmpty(message = "Todo text cannot be empty")
     private String text;
 
-    private LocalDateTime createdOn = LocalDateTime.now();
-
     private boolean done;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "created_by", nullable = false)
+    private User createdBy;
+
+    @JsonProperty("created_at")
+    @Column(insertable = true, updatable = false)
+    protected LocalDateTime createdAt = LocalDateTime.now();
+
+    @JsonProperty("updated_at")
+    @Column(insertable = false, updatable = true)
+    protected LocalDateTime updatedAt = LocalDateTime.now();
+
     @PrePersist
+    public void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
     @PreUpdate
-    void prePersist() {
-        if(createdOn == null) {
-            createdOn = LocalDateTime.now();
-        }
+    public void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }

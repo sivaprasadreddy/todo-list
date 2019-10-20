@@ -2,11 +2,13 @@ package com.sivalabs.todo.web.controller;
 
 import com.sivalabs.todo.common.AbstractIntegrationTest;
 import com.sivalabs.todo.entity.Todo;
+import com.sivalabs.todo.entity.User;
 import com.sivalabs.todo.repository.TodoRepository;
+import com.sivalabs.todo.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -23,20 +26,29 @@ class TodoControllerIT extends AbstractIntegrationTest {
     @Autowired
     private TodoRepository todoRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private List<Todo> todoList = null;
+
+    private User user;
 
     @BeforeEach
     void setUp() {
         todoRepository.deleteAll();
 
+        user = userRepository.findByEmail("admin@gmail.com").orElse(null);
+
         todoList = new ArrayList<>();
-        todoList.add(new Todo(1L, "First Todo", LocalDateTime.now(), true));
-        todoList.add(new Todo(2L, "Second Todo", LocalDateTime.now(), false));
-        todoList.add(new Todo(3L, "Third Todo", LocalDateTime.now(), false));
+        this.todoList.add(new Todo(1L, "First Todo", true, user, LocalDateTime.now(), null));
+        this.todoList.add(new Todo(2L, "Second Todo", true, user, LocalDateTime.now(), null));
+        this.todoList.add(new Todo(3L, "Third Todo", true, user, LocalDateTime.now(), null));
+
         todoList = todoRepository.saveAll(todoList);
     }
 
     @Test
+    @WithMockUser
     void shouldFetchAllTodos() throws Exception {
         this.mockMvc.perform(get("/api/todos"))
                 .andExpect(status().isOk())
@@ -44,6 +56,7 @@ class TodoControllerIT extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser
     void shouldFindTodoById() throws Exception {
         Todo todo = todoList.get(0);
         Long todoId = todo.getId();
@@ -51,30 +64,32 @@ class TodoControllerIT extends AbstractIntegrationTest {
         this.mockMvc.perform(get("/api/todos/{id}", todoId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.text", is(todo.getText())))
-                .andExpect(jsonPath("$.createdOn", notNullValue()))
+                .andExpect(jsonPath("$.created_at", notNullValue()))
                 .andExpect(jsonPath("$.done", is(todo.isDone())))
         ;
     }
 
     @Test
+    @WithMockUser(username = "admin@gmail.com")
     void shouldCreateNewTodo() throws Exception {
-        Todo todo = new Todo(null, "New Todo", LocalDateTime.now(), false);
+        Todo todo = new Todo(null, "New Todo", true, user, LocalDateTime.now(), null);
         this.mockMvc.perform(post("/api/todos")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(todo)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.text", is(todo.getText())))
-                .andExpect(jsonPath("$.createdOn", notNullValue()))
+                .andExpect(jsonPath("$.created_at", notNullValue()))
                 .andExpect(jsonPath("$.done", is(todo.isDone())));
 
     }
 
     @Test
+    @WithMockUser
     void shouldReturn400WhenCreateNewTodoWithoutText() throws Exception {
-        Todo todo = new Todo(null, null, LocalDateTime.now(), false);
+        Todo todo = new Todo(null, null, true, user, LocalDateTime.now(), null);
 
         this.mockMvc.perform(post("/api/todos")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(todo)))
                 .andExpect(status().isBadRequest())
                 .andExpect(header().string("Content-Type", is("application/problem+json")))
@@ -89,22 +104,24 @@ class TodoControllerIT extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username = "admin@gmail.com")
     void shouldUpdateTodo() throws Exception {
         Todo todo = todoList.get(0);
         todo.setText("Updated Todo");
         todo.setDone(true);
 
         this.mockMvc.perform(put("/api/todos/{id}", todo.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(todo)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.text", is(todo.getText())))
-                .andExpect(jsonPath("$.createdOn", notNullValue()))
+                .andExpect(jsonPath("$.created_at", notNullValue()))
                 .andExpect(jsonPath("$.done", is(todo.isDone())));
 
     }
 
     @Test
+    @WithMockUser
     void shouldDeleteTodo() throws Exception {
         Todo todo = todoList.get(0);
 
@@ -112,7 +129,7 @@ class TodoControllerIT extends AbstractIntegrationTest {
                 delete("/api/todos/{id}", todo.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.text", is(todo.getText())))
-                .andExpect(jsonPath("$.createdOn", notNullValue()))
+                .andExpect(jsonPath("$.created_at", notNullValue()))
                 .andExpect(jsonPath("$.done", is(todo.isDone())));
 
     }

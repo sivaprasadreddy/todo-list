@@ -1,0 +1,432 @@
+{
+	"info": {
+		"_postman_id": "2330d853-f1df-4ae3-bbfb-db2f043ff6f3",
+		"name": "todolist",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "actuator",
+			"item": [
+				{
+					"name": "get-health",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e0825012-cdb8-4aae-8ad4-69f89847484e",
+								"exec": [
+									"pm.test(\"Check Application Health\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"UP\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/actuator/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-log-level",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ad83eba3-f6ec-4454-b4b9-f1373c906b3d",
+								"exec": [
+									"pm.test(\"Update Log Level\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"configuredLevel\": \"INFO\"}"
+						},
+						"url": {
+							"raw": "{{base_url}}/actuator/loggers/com.sivalabs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"loggers",
+								"com.sivalabs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-log-level",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e0825012-cdb8-4aae-8ad4-69f89847484e",
+								"exec": [
+									"pm.test(\"Verify Log Level\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.configuredLevel).to.eql(\"INFO\");",
+									"    pm.expect(jsonData.effectiveLevel).to.eql(\"INFO\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/actuator/loggers/com.sivalabs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"loggers",
+								"com.sivalabs"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "47706cf1-e63c-47f5-be19-afdca0fb1eeb",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.clearEnvironmentVariable(\"TodoApiAccessToken\");",
+							"postman.setEnvironmentVariable(\"TodoApiAccessToken\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"admin@gmail.com\",\n\t\"password\": \"admin\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/auth/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-todos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4ac15783-010d-4319-b824-b28df80ede6d",
+						"exec": [
+							"pm.test(\"Get All Todos\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{TodoApiAccessToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/todos",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-todo-by-id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "991ec9bb-dc47-4a56-a15e-d25af61530b3",
+						"exec": [
+							"pm.test(\"Get Todo By Id\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{TodoApiAccessToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/todos/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"todos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "70c60bc9-f265-4f46-b47c-72da4f882404",
+						"exec": [
+							"pm.test(\"Create New Todo\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    postman.clearEnvironmentVariable(\"todo_id\");",
+							"    postman.setEnvironmentVariable(\"todo_id\", jsonData.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{TodoApiAccessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"text\": \"Write a new blog post\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/todos",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "70c60bc9-f265-4f46-b47c-72da4f882404",
+						"exec": [
+							"pm.test(\"Update Existing Todo\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{TodoApiAccessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"text\": \"Write a new blog post - updated\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/todos/{{todo_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"todos",
+						"{{todo_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-todo-by-id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c1fa1dc0-9ae9-4c49-ac40-3c481676a0c9",
+						"exec": [
+							"pm.test(\"Delete Todo by Id\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    postman.clearEnvironmentVariable(\"todo_id\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{TodoApiAccessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/api/todos/{{todo_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"todos",
+						"{{todo_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "64ba2502-a961-4c96-bdb5-54f713151d6a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0779c021-82f7-434d-aaef-be885c2cbaa1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
