@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    /*
+    triggers {
+        pollSCM('*//* 3 * * * *')
+    }
+    */
+
+    stages {
+        stage('Test') {
+            steps {
+                sh './mvnw clean gatling:test'
+            }
+            post {
+                always {
+                    gatlingArchive()
+                    /*
+                    publishHTML(target:[
+                         allowMissing: true,
+                         alwaysLinkToLastBuild: true,
+                         keepAll: true,
+                         reportDir: 'target/gatling/results/',
+                         reportFiles: 'index.html',
+                         reportName: "Gatling Report"
+                    ])
+                    */
+                }
+            }
+        }
+    }
+}
