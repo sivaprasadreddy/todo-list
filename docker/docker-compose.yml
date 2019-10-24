@@ -2,7 +2,7 @@ version: '3.1'
 services:
 
   todo-api-spring-boot:
-    build: ..
+    build: ../todo-api-spring-boot
     container_name: todo-api-spring-boot
     ports:
       - "18080:8080"
@@ -21,3 +21,8 @@ services:
     ports:
       - "5432:5432"
 
+  todo-ui-react:
+    build: ../todo-ui-react
+    container_name: todo-ui-react
+    ports:
+      - "90:80"

@@ -10,6 +10,7 @@
 	<description>Todo List</description>
 
 	<modules>
+		<module>todo-ui-react</module>
 		<module>todo-api-spring-boot</module>
 	</modules>
 
