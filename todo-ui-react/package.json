@@ -1,0 +1,57 @@
+{
+    "name": "todo-ui-react",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "axios": "^0.19.0",
+        "bootstrap": "^4.3.1",
+        "ejs": "^2.7.1",
+        "env-cmd": "^10.0.1",
+        "express": "^4.17.1",
+        "react": "^16.9.0",
+        "react-dom": "^16.9.0",
+        "react-redux": "^7.1.1",
+        "react-router-dom": "^5.0.1",
+        "react-scripts": "3.1.1",
+        "redux": "^4.0.4",
+        "redux-logger": "^3.0.6",
+        "redux-thunk": "^2.3.0"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "build:heroku": "env-cmd -f .env.heroku npm run build",
+        "test": "react-scripts test --coverage",
+        "test:ci": "CI=true react-scripts test --coverage",
+        "eject": "react-scripts eject",
+        "server": "npm run build && node server.js",
+        "server:heroku": "npm run build:heroku && node server.js",
+        "prettier:format": "prettier --write \"{,src/**/}*.{md,json,js,ts,css,scss,yml}\"",
+        "lint": "eslint src",
+        "lint:fix": "npm run lint -- --fix"
+    },
+    "engines": {
+        "node": ">=10.x"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@testing-library/react": "^9.1.4",
+        "eslint-config-prettier": "^6.3.0",
+        "eslint-plugin-prettier": "^3.1.0",
+        "husky": "^3.0.5",
+        "lint-staged": "^9.2.5",
+        "prettier": "^1.18.2",
+        "pretty-quick": "^1.11.1"
+    }
+}

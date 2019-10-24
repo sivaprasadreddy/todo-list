@@ -1,0 +1,31 @@
+language: node_js
+node_js:
+    - "stable"
+
+env:
+    global:
+        - secure: "JSTIqdnxvgHUqWbkcCS/JCWk4LsvEErkIdll/tah55MtvQsVR2i05i/BTcogyg5DnzsEtmQ7YpPRbj+UsEA4JnR2zlfs5d4BwRM3+hX3zkup60SUSeTP7C8URCIH9bea/xGDDoL+SgnL2OOfx38g9RxFBrxvmJ6bA9BaKyM9p/NF0sKbpqMqYhGosj8vEGSfLXGFWRRcuvbldh/Qg4u3BZmn1ldEHpafgiDZJsX7M+gS7QZT6KOzx1LZCLk5vNyr7+5DDuZdcVGlLVVLv17L/wzX+xAbjG686QJ/p9aChsJ3JbxOxLMuWuFbP8EsIyG1xGaEZBgzpqvfdKyIlshTnVhXf499AN2OyDAm/v1vIukOWtqOYdVgLkrulFftvMVROGILodHMllvVjyNewt8GPDT/QDdXrCSW6ZbLQ8FSduyRzbYL9y3uUWQl8oRK9vNwnxJ60o4rx+mb7WrGKEa1NUgg3BFy8pGtTK9hZUFwZJxfer4QXZ0vmIlDwaDj5iTtjFVehZyRy5IOwaXvLBxmbU/yqPpRCKqdb08+vcSyfEG8PbyRNgTeKH2SjGPoWS1Koai7XgAifcrk8FmovG38KNU8hFCrHTyWaysm69tYXFbWFaUbJde2i5RLh7Gug4HfsZ2hKXyU88tQGI8dFacQINnXF2OALJceFQWM972iF0c="
+        - secure: "ezwm7Wqi4LfozH2lRwpt3IsDIw8C8yNbwfhge19+JWyDGjB5XS1lOvr+lBM0oHV5pc08WykzxLILRGYleom8jUSCW0FUhF6N/OoizqYM8XflpPvhlug0sqQy/f5e/g5FauXHvlWRGwPLRFQFCb7kFZrHlri28y9zVPszKe8M5UeGEIFvHA7ic/E9D/SVrfxGXc6vcX0nKhSzfzVXKOMvqtMl61mPLqg9JbwyUyS6ZwMW1sQm8fkDmZllxC/iEQlDDk4vcK/LH8cZmw7/Jh8OkPHcLAo3kmW5QVMMCktetU2XOdLlTfk+qkx0nlaVVDNKQ2m2u4KRB9h0C33VAsT0hyQrufRC/VNTKUy8Spk7EJcOLOAKoBhOA6sD5WrEISDxN+xSFG8yRd4mMTU0YhogV35FCNDH/uGIPMPm5Yu7kNfXw4YQdmFOM85r7tc/RvD9IP+SgjFNtOnY3mukhSHXjGbQo/bdCpnzBRS7rAl3WOe/ZDDUtXxkzSUXbajfoVNxaC92gfyrKSFUUuPSFDEt2k28+pPi7RqzhwMwj6rvk9CZr7ktTvdkGQcyU+MBb6SYttS57+kZgWTsstKrhxpRjzWb4y3cDMBXUeuUqj2NYl5k/coJ1ywSYGbW6oAArXPmQbUYzYRZLso5ZKwdCnwIT7HQl2/T7MNgjTFko11vo2s="
+        - secure: "FadBabG1l1tnJ9mUFBstD7Kq1fgcWO6MBsj3NHEBYjsEX4ktEwyay/HexKQfOoVDuYDuDIkxyhsETavecdpyaAk3NyaJNoaMoP/XWHxnMvnBpKMmAteKXjqGaVRHlWsZtB/iTRMTkUFhj14jxCZSOYawX6dRlaQihtp9jBDyiW+nytYN/POvRVmMs9Ah+WwGUdhu7LffGouzadlt76dS+jEKjtYloCX6Tofkps7iSKDsIAlIGzFJ6xx7Ly2Vb8aY0Zwmwa+Yd9lx0CRDuURjPt/bHW70fvevPVfax9qzSqJOylDJfi8wlUGiIj8AExavI6T74k/Woie+F5eCOpMB1S8+H3M2vUhK8zZRqEvc977bophmMMNPCLpqphNKoZOlk5cPjN49hXCKpgFr6lxaDRpe+utNiicYIB5pp3hM6AwAgJ3cKTG4bDw+/QTAGEDD5rzCZdgo7QTKzcMmUAopDoXF+DqrA0cVIi1qYIePL4J5t8txl4fec2NFVsdL0q4u4gnjccpfBaJrC2a6srRm9kVr7yrB/DBaUo0V54awJmOb49J3q7dpW78skAPRtY1cMs/Whv1OrRvwhQn/rrwyaBUssl7GAVTgE2ZaH9tdQ8s6bdAg4mIbF6YKZivkSx9U0/5hXBGwl7CfQkUXRuxevD1FwgQI1cbf9yvpaJ+Cb9s="
+        - COMMIT=${TRAVIS_COMMIT::7}
+
+script:
+    - npm install
+    - npm run build:heroku
+
+cache:
+    directories:
+        - "node_modules"
+
+after_success:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+    - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+    - export IMAGE_NAME=sivaprasadreddy/todo-ui-react
+    - docker build -t $IMAGE_NAME:$COMMIT .
+    - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
+    - docker push $IMAGE_NAME
+
+deploy:
+    provider: heroku
+    api_key: $HEROKU_API_KEY
+    app: sivalabs-todo-ui-react
