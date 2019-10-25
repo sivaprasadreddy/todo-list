@@ -3,7 +3,10 @@
 .idea/
 *.iml
 
+target/
+
 # dependencies
+/node
 /node_modules
 /.pnp
 .pnp.js

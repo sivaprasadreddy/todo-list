@@ -1,4 +1,4 @@
-# Todo REST API using SpringBoot
+# TodoList Application using SpringBoot
 
 [![Build Status](https://travis-ci.org/sivaprasadreddy/todo-api-spring-boot.svg?branch=master)](https://travis-ci.org/sivaprasadreddy/todo-api-spring-boot) 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.sivalabs%3Atodo-api-spring-boot&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.sivalabs%3Atodo-api-spring-boot)
