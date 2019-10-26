@@ -3,7 +3,26 @@ import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 
 class NavBar extends React.Component {
+    logoutHandler = () => {
+        localStorage.removeItem("access_token");
+        window.location = "/login";
+    };
+
     render() {
+        let logoutBtn;
+        if (this.props.loggedIn) {
+            logoutBtn = (
+                <ul className="navbar-nav">
+                    <li className="nav-item">
+                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.logoutHandler}>
+                            Logout
+                        </button>
+                    </li>
+                </ul>
+            );
+        } else {
+            logoutBtn = "";
+        }
         return (
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <NavLink className="navbar-brand" to="/">
@@ -28,15 +47,7 @@ class NavBar extends React.Component {
                             </NavLink>
                         </li>
                     </ul>
-                    {/*           
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/login">
-                Login
-              </NavLink>
-            </li>
-          </ul> 
-          */}
+                    {logoutBtn}
                 </div>
             </nav>
         );
@@ -44,7 +55,10 @@ class NavBar extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return {};
+    console.log("state: ", state);
+    return {
+        loggedIn: localStorage.getItem("access_token") ? true : false
+    };
 };
 
 const mapDispatchToProps = dispatch => ({});

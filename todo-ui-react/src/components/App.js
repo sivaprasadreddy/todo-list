@@ -1,14 +1,15 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Home from "./Home";
+import Home from "../containers/Home";
 import NavBar from "./NavBar";
+import Login from "../containers/Login";
 
 const App = () => (
     <div className="App">
         <NavBar />
         <main role="main" className="container">
             <Switch>
-                <Route exact path="/" component={Home} />
+                <Route path="/login" component={Login} />
                 <Route component={Home} />
             </Switch>
         </main>

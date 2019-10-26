@@ -1,6 +1,12 @@
 import axios from "./axios";
 import * as actionTypes from "./actionTypes";
 
+export function login(credentials) {
+    return dispatch => {
+        return axios.post("/api/auth/login", credentials);
+    };
+}
+
 export function fetchAllTodos() {
     return dispatch => {
         return axios("/api/todos")
