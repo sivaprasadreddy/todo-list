@@ -30,7 +30,7 @@ function stop() {
 
 function start_all() {
     echo 'Starting todo_api and dependencies....'
-    # build_api
+    build_api
     docker-compose -f ${dc_main} -f ${dc_elk} -f ${dc_monitoring} up --build --force-recreate -d
     docker-compose -f ${dc_main} -f ${dc_elk} -f ${dc_monitoring} logs -f
 }
